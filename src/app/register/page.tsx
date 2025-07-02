@@ -221,8 +221,8 @@ function GameStepComponent({
       });
 
       if (response.ok) {
-        // Rediriger vers la page de résultats
-        window.location.href = `/results?score=${score}&name=${encodeURIComponent(userName)}`;
+        // Rediriger vers la page de fin
+        window.location.href = `/complete?score=${score}&name=${encodeURIComponent(userName)}`;
       }
     } catch (error) {
       console.error("Erreur lors de la sauvegarde du score:", error);
