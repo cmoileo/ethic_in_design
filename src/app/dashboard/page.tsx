@@ -51,8 +51,9 @@ export default function DashboardPage() {
       } else {
         setError("Erreur lors du chargement des données");
       }
-    } catch (err) {
+    } catch (error) {
       setError("Erreur de connexion");
+      console.error("Erreur lors du chargement:", error);
     } finally {
       setLoading(false);
     }
@@ -162,7 +163,7 @@ export default function DashboardPage() {
                   📈 Activité récente
                 </h3>
                 <div className="space-y-2">
-                  {data.scores.slice(0, 3).map((score, index) => (
+                  {data.scores.slice(0, 3).map((score) => (
                     <div
                       key={score.id}
                       className="flex items-center justify-between p-3 bg-gray-50 rounded-md"

@@ -2,11 +2,29 @@
 
 import { useState, useEffect } from "react";
 
-interface GameStep {
-  id: number;
-  title: string;
-  component: React.ReactElement;
+interface FormData {
+  [key: string]: string | boolean | undefined;
+  email?: string;
+  phone?: string;
+  address?: string;
+  cardNumber?: string;
+  expiry?: string;
+  cvv?: string;
+  birthDate?: string;
+  profession?: string;
+  familyStatus?: string;
+  cancellationReason?: string;
+  confirmationPhone?: string;
+  confirmationCode?: string;
+  captchaAnswer?: string;
+  newsletter?: boolean;
+  offers?: string;
+  misdirection?: string;
+  cancellationCompleted?: boolean;
+  captchaCompleted?: boolean;
 }
+
+type SetFormData = React.Dispatch<React.SetStateAction<FormData>>;
 
 export default function RegisterPage() {
   const [userName, setUserName] = useState("");
@@ -47,8 +65,9 @@ export default function RegisterPage() {
       } else {
         setError(data.error || "Erreur lors de la création du compte");
       }
-    } catch (error) {
+    } catch (err) {
       setError("Erreur de connexion");
+      console.error("Erreur de connexion:", err);
     } finally {
       setLoading(false);
     }
@@ -64,7 +83,7 @@ export default function RegisterPage() {
               Créer votre compte
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Commencez votre expérience sur l'éthique du design
+              Commencez votre expérience sur l&apos;éthique du design
             </p>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleRegister}>
@@ -117,10 +136,11 @@ export default function RegisterPage() {
               Maintenant, veuillez compléter votre inscription...
             </p>
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-3">
+              {" "}
               <p className="text-sm text-blue-800">
-                🎮 <strong>Jeu sur l'éthique du design</strong> - Vous allez
-                expérimenter différents "dark patterns" couramment utilisés sur
-                le web. Essayez de les identifier !
+                🎮 <strong>Jeu sur l&apos;éthique du design</strong> - Vous
+                allez expérimenter différents &quot;dark patterns&quot;
+                couramment utilisés sur le web. Essayez de les identifier !
               </p>
             </div>
           </div>
@@ -172,7 +192,7 @@ function GameStepComponent({
   startTime: number | null;
   userName: string;
 }) {
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<FormData>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -250,24 +270,11 @@ function getStepTitle(step: number): string {
   return titles[step] || "supplémentaires";
 }
 
-// Fonction pour expliquer les dark patterns
-function getDarkPatternExplanation(step: number): string {
-  const explanations = [
-    "Roach Motel : Case pré-cochée pour newsletter difficile à décocher",
-    "Bait & Switch : Le bouton change de fonction au dernier moment",
-    "Confirmshaming : Options de refus formulées de manière humiliante",
-    "Hidden Costs : Frais cachés révélés au dernier moment",
-    "Forced Continuity : Essai gratuit qui devient payant automatiquement",
-    "Privacy Zuckering : Paramètres de confidentialité défavorables par défaut",
-    "Misdirection : Boutons trompeurs qui font l'inverse de ce qu'ils annoncent",
-    "Fake Urgency : Fausse urgence avec compteurs factices",
-    "Difficult Cancellation : Processus d'annulation volontairement complexe",
-    "Captcha Hell : Captcha volontairement difficile et frustrant",
-  ];
-  return explanations[step] || "Pattern non identifié";
-}
-
-function renderStepContent(step: number, formData: any, setFormData: any) {
+function renderStepContent(
+  step: number,
+  formData: FormData,
+  setFormData: SetFormData
+) {
   switch (step) {
     case 0: // Roach Motel - Newsletter piège
       return (
@@ -309,7 +316,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
               <p className="text-xs text-gray-500 ml-6">
                 * Pour vous désinscrire, envoyez un courrier recommandé avec
                 accusé de réception à notre siège social avec une pièce
-                d'identité
+                d&apos;identité
               </p>
             </div>
           </div>
@@ -340,7 +347,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
 
           <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
             <h4 className="font-medium text-blue-800 mb-3">
-              💰 Économisez jusqu'à 50% !
+              💰 Économisez jusqu&apos;à 50% !
             </h4>
             <div className="space-y-3">
               <label className="flex items-center space-x-2">
@@ -354,7 +361,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
                   }
                 />
                 <span className="text-green-700 font-medium">
-                  ✅ Oui, je veux économiser de l'argent avec vos offres
+                  ✅ Oui, je veux économiser de l&apos;argent avec vos offres
                   spéciales !
                 </span>
               </label>
@@ -454,7 +461,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
               }
             />
             <p className="text-xs text-gray-500 mt-1">
-              * Aucun débit durant l'essai. Après 7 jours : 29,99€/mois
+              * Aucun débit durant l&apos;essai. Après 7 jours : 29,99€/mois
               (annulation possible dans votre espace client)
             </p>
           </div>
@@ -512,7 +519,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
               },
               {
                 key: "shareActivity",
-                label: "Partager mon activité pour améliorer l'expérience",
+                label: "Partager mon activité pour améliorer l&apos;expérience",
               },
               {
                 key: "shareContacts",
@@ -574,7 +581,7 @@ function renderStepContent(step: number, formData: any, setFormData: any) {
               type="text"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={formData[`field${step}`] || ""}
+              value={(formData[`field${step}`] as string) || ""}
               onChange={(e) =>
                 setFormData({ ...formData, [`field${step}`]: e.target.value })
               }
@@ -591,8 +598,8 @@ function BaitAndSwitchStep({
   formData,
   setFormData,
 }: {
-  formData: any;
-  setFormData: any;
+  formData: FormData;
+  setFormData: SetFormData;
 }) {
   const [buttonText, setButtonText] = useState("Continuer gratuitement");
   const [switched, setSwitched] = useState(false);
@@ -648,8 +655,8 @@ function MisdirectionStep({
   formData,
   setFormData,
 }: {
-  formData: any;
-  setFormData: any;
+  formData: FormData;
+  setFormData: SetFormData;
 }) {
   return (
     <div className="space-y-4">
@@ -681,7 +688,7 @@ function MisdirectionStep({
             className="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 text-sm"
             onClick={() => setFormData({ ...formData, misdirection: "cancel" })}
           >
-            Annuler l'inscription
+            Annuler l&apos;inscription
           </button>
           <button
             type="button"
@@ -694,7 +701,7 @@ function MisdirectionStep({
           </button>
         </div>
         <p className="text-xs text-gray-500 mt-2">
-          * Le bouton vert fait le contraire de ce qu'il annonce
+          * Le bouton vert fait le contraire de ce qu&apos;il annonce
         </p>
       </div>
     </div>
@@ -705,8 +712,8 @@ function FakeUrgencyStep({
   formData,
   setFormData,
 }: {
-  formData: any;
-  setFormData: any;
+  formData: FormData;
+  setFormData: SetFormData;
 }) {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [spotsLeft, setSpotsLeft] = useState(3);
@@ -723,7 +730,7 @@ function FakeUrgencyStep({
     }, 1000);
 
     const spotsTimer = setInterval(() => {
-      setSpotsLeft((prev) => Math.max(1, Math.floor(Math.random() * 5) + 1));
+      setSpotsLeft(() => Math.max(1, Math.floor(Math.random() * 5) + 1));
     }, 8000);
 
     return () => {
@@ -779,8 +786,8 @@ function DifficultCancellationStep({
   formData,
   setFormData,
 }: {
-  formData: any;
-  setFormData: any;
+  formData: FormData;
+  setFormData: SetFormData;
 }) {
   const [attempts, setAttempts] = useState(0);
   const [showError, setShowError] = useState(false);
@@ -808,7 +815,7 @@ function DifficultCancellationStep({
 
         <div className="space-y-2 mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            Raison de l'annulation *
+            Raison de l&apos;annulation *
           </label>
           <textarea
             required
@@ -836,7 +843,8 @@ function DifficultCancellationStep({
             }
           />
           <p className="text-xs text-gray-500">
-            Notre équipe vous contactera sous 48h pour finaliser l'annulation
+            Notre équipe vous contactera sous 48h pour finaliser
+            l&apos;annulation
           </p>
         </div>
 
@@ -856,7 +864,7 @@ function DifficultCancellationStep({
           className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-sm"
           disabled={!formData.cancellationReason || !formData.confirmationPhone}
         >
-          Confirmer l'annulation ({attempts + 1}/3)
+          Confirmer l&apos;annulation ({attempts + 1}/3)
         </button>
       </div>
     </div>
@@ -867,8 +875,8 @@ function CaptchaHellStep({
   formData,
   setFormData,
 }: {
-  formData: any;
-  setFormData: any;
+  formData: FormData;
+  setFormData: SetFormData;
 }) {
   const [captchaAttempts, setCaptchaAttempts] = useState(0);
   const [currentCaptcha, setCurrentCaptcha] = useState(0);
@@ -888,7 +896,7 @@ function CaptchaHellStep({
     { question: "Combien font 15 + 27 ?", answer: "42", difficulty: "math" },
   ];
 
-  const handleCaptchaSubmit = (answer: string) => {
+  const handleCaptchaSubmit = () => {
     setCaptchaAttempts((prev) => prev + 1);
 
     if (captchaAttempts < 3) {
@@ -972,7 +980,7 @@ function CaptchaHellStep({
 
           <button
             type="button"
-            onClick={() => handleCaptchaSubmit(formData.captchaAnswer || "")}
+            onClick={() => handleCaptchaSubmit()}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-sm"
             disabled={!formData.captchaAnswer}
           >
