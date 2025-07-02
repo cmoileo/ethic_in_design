@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎮 Jeu sur l'Éthique du Design - Dark Patterns Experience
 
-## Getting Started
+Une application web interactive éducative qui sensibilise aux "dark patterns" (patterns sombres) couramment utilisés dans les interfaces web.
 
-First, run the development server:
+## 🎯 Objectif
+
+Ce jeu permet aux utilisateurs d'expérimenter 10 dark patterns différents à travers un processus d'inscription frustrant mais éducatif. L'objectif est de :
+
+- Sensibiliser aux pratiques manipulatrices du web
+- Apprendre à identifier les dark patterns
+- Comprendre l'impact sur l'expérience utilisateur
+- Mesurer le temps perdu à cause de ces pratiques
+
+## 🕹️ Comment jouer
+
+1. **Accueil** : Cliquez sur "Commencer l'expérience"
+2. **Création de compte** : Entrez votre nom (enregistré en base)
+3. **10 étapes** : Traversez chaque étape avec son dark pattern
+4. **Score final** : Votre temps total est enregistré
+
+## 🎭 Les 10 Dark Patterns Implémentés
+
+### 1. **Roach Motel** (Piège à cafards)
+
+- Case newsletter pré-cochée
+- Désinscription complexe
+
+### 2. **Bait and Switch** (Appât et substitution)
+
+- Bouton qui change de fonction
+- "Continuer" devient "S'abonner Premium"
+
+### 3. **Confirmshaming** (Honte de confirmation)
+
+- Options de refus humiliantes
+- "Non, je préfère payer plus cher"
+
+### 4. **Hidden Costs** (Coûts cachés)
+
+- Service "gratuit" avec frais cachés
+- Frais de traitement, assurance, etc.
+
+### 5. **Forced Continuity** (Continuité forcée)
+
+- Essai gratuit nécessitant une CB
+- Reconduction automatique
+
+### 6. **Privacy Zuckering** (Piège à données)
+
+- Paramètres de confidentialité défavorables
+- Cases pré-cochées pour partager les données
+
+### 7. **Misdirection** (Détournement d'attention)
+
+- Boutons trompeurs
+- Le bouton vert annule, le gris valide
+
+### 8. **Fake Urgency** (Fausse urgence)
+
+- Compte à rebours factice
+- Stock limité qui se renouvelle
+
+### 9. **Difficult Cancellation** (Annulation difficile)
+
+- Processus complexe d'annulation
+- Justifications obligatoires
+
+### 10. **Captcha Hell** (Enfer du captcha)
+
+- Captcha volontairement difficile
+- Échecs répétés, images floues
+
+## 🛠️ Technologies
+
+- **Frontend** : Next.js 15, React, TypeScript, Tailwind CSS
+- **Backend** : Next.js API Routes
+- **Base de données** : PostgreSQL (Neon)
+- **ORM** : Prisma
+- **Déploiement** : Vercel (recommandé)
+
+## 🚀 Installation et développement
 
 ```bash
+# Installation des dépendances
+npm install
+
+# Configuration de la base de données
+npx prisma migrate dev
+
+# Génération du client Prisma
+npx prisma generate
+
+# Lancement en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📊 Base de données
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```prisma
+model User {
+  id     String @id @default(cuid())
+  name   String
+  score  Score?
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+model Score {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  score     Int      // Temps en secondes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
 
-## Learn More
+## 🎓 Utilisation pédagogique
 
-To learn more about Next.js, take a look at the following resources:
+Cette application peut être utilisée dans :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Cours de design UX/UI
+- Formations sur l'éthique numérique
+- Ateliers de sensibilisation
+- Études sur l'expérience utilisateur
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Variables d'environnement
 
-## Deploy on Vercel
+Créez un fichier `.env` :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+DB_URL="your_postgresql_connection_string"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+
+- Ajouter de nouveaux dark patterns
+- Améliorer l'interface utilisateur
+- Optimiser les performances
+- Ajouter des tests
+
+## ⚖️ Éthique
+
+Ce projet est créé dans un but éducatif uniquement. L'objectif est de sensibiliser aux pratiques manipulatrices pour mieux les éviter, pas pour les reproduire dans de vrais projets.
+
+## 📄 Licence
+
+MIT License - Utilisez ce code de manière responsable et éthique.
